@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex justify-center items-center flex-col gap-4 p-5 ">
+    <button
+      id="joke-btn"
+      class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+    >
+      Generate Joke
+    </button>
+    <center  id="joke" class="text-xl w-[80%] font-bold"></center>
+
+    <script>
+        const fetchJokes = async () => {
+        const response = await fetch("https://jokeapi.dev/joke/Any");
+        const data = await response.json();
+        return data;
+      };
+
+      const jokeBtn = document.querySelector("#joke-btn");
+      const jokeEl = document.querySelector("#joke");
+
+      jokeBtn.addEventListener("click", async () => {
+        const joke = await fetchJokes();
+        console.log(joke)
+        if (joke.setup) {
+          jokeEl.innerHTML = `${joke.setup} <br> ${joke.delivery}`;
+        } else {
+          jokeEl.innerHTML = joke.joke;
+        }
+      });
+    </script>
+</body>
+</html>
